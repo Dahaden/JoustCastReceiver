@@ -59,7 +59,7 @@ window.onload = function() {
     window.castReceiverManager.start({statusText: "Application is starting"});
     console.log('Receiver Manager started');
 
-    window.setInterval(window.messageBus.broadcast.bind(undefined, "Time: " + Date.now()), 1000);
+    window.setInterval(window.messageBus.broadcast.bind(window.messageBus, "Time: " + Date.now()), 1000);
 };
 
 
