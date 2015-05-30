@@ -48,7 +48,7 @@ var updateScreenPlayerStatus = function(playersDetails) {
 
 window.onload = function() {
     var gameConfig = new cast.receiver.games.GameManagerConfig();
-    gameConfig.applicationName = 'joust';
+    gameConfig.applicationName = 'com.dahaden.joust';
     gameConfig.maxPlayers = 32;
 
     cast.receiver.logger.setLevelValue(0);
@@ -100,22 +100,25 @@ window.onload = function() {
         //window.messageBus.send(event.senderId, event.data);
     };
 
+    window.gameManager = new cast.receiver.games.GameManager(gameConfig);
+    
+    window.gameManager.addGameManagerListener(gameManagerListener);
+    
     // initialize the CastReceiverManager with an application status message
     window.castReceiverManager.start({statusText: "Application is starting"});
     console.log('Receiver Manager started');
     
-    window.gameManager = new cast.receiver.games.GameManager(gameConfig);
+    
     
     //window.gameManager.onGameDataChanged = function(event) {};
     
     //window.gamemanager.onGameLoading = function(event) {};
     
-    window.gameManager.onLobbyClosed = function(event) {
-        
-    };
     
-    window.gameManager.onPlayerDataChanged = function(event) {
-        updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
-    };
 };
 
+var gameManagerListener = new cast.receiver.games.GameManagerListener();
+
+gameManagerListener.onPlayerDataChanged = function(event) {
+    updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
+};
