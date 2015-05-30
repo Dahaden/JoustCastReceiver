@@ -29,3 +29,5 @@ node_modules
 
 cast_receiver.js
 cast_games_receiver.js
+
+.settings
