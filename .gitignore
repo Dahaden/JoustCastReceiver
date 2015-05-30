@@ -26,3 +26,6 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+cast_receiver.js
+cast_games_receiver.js
