@@ -7,6 +7,47 @@
 //alert("ran");
 //};
 
+var gameConfig = new GameManagerConfig({'applicationName': 'joust',
+                                        'maxPlayers': 32
+                                        });
+
+var updateSpan = function(spanID, num) {
+    var element = document.getElementById(spanID);
+    element.innerText = num;
+};
+
+var numInSpan = function(spanID) {
+    var element = document.getElementById(spanID);
+    var num = parseInt(element.innerText);
+    return num;    
+};                    
+
+var deltaSpan = function(spanID, delta) {
+    updateSpan(spanID, numInSpan(spanID) + delta);
+};
+
+
+var updateScreenPlayerStatus = function(playersDetails) {
+    var idle = 0, available = 0, ready = 0;
+    
+    for(var player in playersDetails ) {
+        switch (player.playerState) {
+            case cast.receiver.games.PlayerState.AVAILABLE:
+                available++;
+                break;
+            case cast.receiver.games.PlayerState.READY:
+                ready++;
+                break;
+            case cast.receiver.games.PlayerState.IDLE:
+                idle++;
+                break;
+        }
+    }
+    updateSpan("player-idle", idle);
+    updateSpan("player-ready", ready);
+    updateSpan("player-available", available);
+};
+
 window.onload = function() {
 
     cast.receiver.logger.setLevelValue(0);
@@ -77,43 +118,3 @@ window.onload = function() {
     };
 };
 
-var gameConfig = new GameManagerConfig({'applicationName': 'joust',
-                                        'maxPlayers': 32
-                                        });
-
-var updateSpan = function(spanID, num) {
-    var element = document.getElementById(spanID);
-    element.innerText = num;
-};
-
-var numInSpan = function(spanID) {
-    var element = document.getElementById(spanID);
-    var num = parseInt(element.innerText);
-    return num;    
-};                    
-
-var deltaSpan = function(spanID, delta) {
-    updateSpan(spanID, numInSpan(spanID) + delta);
-};
-
-
-var updateScreenPlayerStatus = function(playersDetails) {
-    var idle = 0, available = 0, ready = 0;
-    
-    for(var player in playersDetails ) {
-        switch (player.playerState) {
-            case cast.receiver.games.PlayerState.AVAILABLE:
-                available++;
-                break;
-            case cast.receiver.games.PlayerState.READY:
-                ready++;
-                break;
-            case cast.receiver.games.PlayerState.IDLE:
-                idle++;
-                break;
-        }
-    }
-    updateSpan("player-idle", idle);
-    updateSpan("player-ready", ready);
-    updateSpan("player-available", available);
-};
