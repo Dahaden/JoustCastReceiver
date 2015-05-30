@@ -7,9 +7,7 @@
 //alert("ran");
 //};
 
-var gameConfig = new GameManagerConfig({'applicationName': 'joust',
-                                        'maxPlayers': 32
-                                        });
+
 
 var updateSpan = function(spanID, num) {
     var element = document.getElementById(spanID);
@@ -49,6 +47,9 @@ var updateScreenPlayerStatus = function(playersDetails) {
 };
 
 window.onload = function() {
+    var gameConfig = new GameManagerConfig({'applicationName': 'joust',
+                                        'maxPlayers': 32
+                                        });
 
     cast.receiver.logger.setLevelValue(0);
 
