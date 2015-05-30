@@ -74,9 +74,9 @@ window.onload = function() {
     castReceiverManager.onSenderDisconnected = function(event) {
         console.log('Received Sender Disconnected event: ' + event.data);
         deltaSpan("connect-people", -1);
-        if (window.castReceiverManager.getSenders().length == 0) {
-            window.close();
-        }
+//        if (window.castReceiverManager.getSenders().length == 0) {
+//            window.close();
+//        }
     };
 
     // handler for 'systemvolumechanged' event
