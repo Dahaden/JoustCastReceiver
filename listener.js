@@ -47,9 +47,9 @@ var updateScreenPlayerStatus = function(playersDetails) {
 };
 
 window.onload = function() {
-    var gameConfig = new GameManagerConfig({'applicationName': 'joust',
-                                        'maxPlayers': 32
-                                        });
+    var gameConfig = new cast.receiver.games.GameManagerConfig();
+    gameConfig.applicationName = 'joust';
+    gameConfig.maxPlayers = 32;
 
     cast.receiver.logger.setLevelValue(0);
 
@@ -104,7 +104,7 @@ window.onload = function() {
     window.castReceiverManager.start({statusText: "Application is starting"});
     console.log('Receiver Manager started');
     
-    window.gameManager = new GameManager(gameConfig);
+    window.gameManager = new cast.receiver.games.GameManager(gameConfig);
     
     //window.gameManager.onGameDataChanged = function(event) {};
     
