@@ -60,7 +60,7 @@ window.onload = function() {
     // handler for the 'ready' event
     castReceiverManager.onReady = function(event) {
         console.log('Received Ready event: ' + JSON.stringify(event.data));
-        window.castReceiverManager.setApplicationState("Application status is ready...");
+        window.castReceiverManager.setApplicationState("Application status is ready");
     };
 
     // handler for 'senderconnected' event
@@ -123,7 +123,8 @@ window.onload = function() {
     window.castReceiverManager.start({statusText: "Application is starting"});
     console.log('Receiver Manager started');
     
-    
+    window.gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN, true);
+    gameManager.broadcastGameManagerStatus();
     
     //window.gameManager.onGameDataChanged = function(event) {};
     
