@@ -102,6 +102,21 @@ window.onload = function() {
 
     window.gameManager = new cast.receiver.games.GameManager(gameConfig);
     
+    var gameManagerListener = new cast.receiver.games.GameManagerListener();
+
+    gameManagerListener.onPlayerDataChanged = function(event) {
+        updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
+    };
+    
+    gameManagerListener.onPlayerAvailable = function(event) {
+        var result = {'isHost' : false};
+        if(window.host == undefined) {
+            result.isHost = true;
+        }
+        updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
+        return result;
+    };
+    
     window.gameManager.addGameManagerListener(gameManagerListener);
     
     // initialize the CastReceiverManager with an application status message
@@ -117,8 +132,3 @@ window.onload = function() {
     
 };
 
-var gameManagerListener = new cast.receiver.games.GameManagerListener();
-
-gameManagerListener.onPlayerDataChanged = function(event) {
-    updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
-};
