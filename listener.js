@@ -48,7 +48,7 @@ var updateScreenPlayerStatus = function(playersDetails) {
 
 window.onload = function() {
     var gameConfig = new cast.receiver.games.GameManagerConfig();
-    gameConfig.applicationName = 'com.dahaden.joust';
+    gameConfig.applicationName = 'com.dhaden.joust';
     gameConfig.maxPlayers = 32;
 
     cast.receiver.logger.setLevelValue(0);
