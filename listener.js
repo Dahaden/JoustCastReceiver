@@ -65,7 +65,7 @@ window.onload = function () {
     };
 
     gameManagerListener.onPlayerAvailable = function (event) {
-        var result = { 'isHost': false };
+        var result = { type: 2, 'isHost': false };
         if (window.host == undefined) {
             result.isHost = true;
             window.host = event.playerInfo.playerId;
@@ -88,6 +88,7 @@ window.onload = function () {
                 window.close();
             } else {
                 window.host == nextHost.playerId;
+                gameManager.sendGameMessageToPlayer(nextHost.playerId, {type: 2, isHost: true});
             }
         }
     }
@@ -107,7 +108,78 @@ window.onload = function () {
     gameManagerListener.onPlayerQuit = function (event) {
         playerLeft(event);
     };
-
+    
+    /*
+    customObject Definitions:
+        Settings: Only useable by host  // Rules Assessed before gameStart, based on players available
+        Any Settings left blank will be defaulted
+            {
+                type: 0,
+                gameMode: 0,  // 0 = FreeForAll, 1 = Teams, 2 = King, 3 = Traitors, 4 = King Traitors (Must have atleast 3 per team)
+                teamLimit: 2, // Must be between 2 and number of ready players
+                freeze: false, 
+                invincibility: false 
+            }
+            
+        Start: Only useable by host
+            {
+                type: 1
+            }
+            
+        isHost: sent to player on join or change of host
+            {
+                type: 2,
+                isHost: false
+            }
+            
+        isDead: sent by player on death submission
+            {
+                type: 3,
+                dead: true
+            }
+            
+        gameUpdate: Sent by Receiver while playing
+            {
+                type: 4,
+                maximumMove: 1.0,   // decimal value to represent maximum m/s^2 allowed
+                gameFinished: false
+            }
+            
+        nameChange: Sent by player before game
+            {
+                type: 5,
+                name: "string"
+            }
+    */
+    gameManagerListener.onGameMessageReceived = function(event) {
+        var customObject = event.resultExtraMessageData;
+        if(window.host == event.playerInfo.playerId) {
+            if(customObject.type == 0) {
+                var gameData = gameManager.getGameData();
+                var boundFunction = replaceIfExists.bind(undefined, gameData, customObject);
+                boundFunction('gameMode');
+                boundFunction('teamLimit');
+                boundFunction('freeze');
+                boundFunction('invincibility');
+                gameManager.updateGameData(gameData, false);
+            } else if(customObject.type == 1) {
+                
+            }
+        }
+    };
+    
+    function replaceIfExists(toBeReplaced, replacer, attributeName) {
+        toBeReplaced[attributeName] = replacer[attributeName] ? replacer[attributeName] : toBeReplaced[attributeName];
+    }
+    
+    var gameSettings = {
+        gameMode: 0,
+        teamLimit: 2,
+        freeze: 0,
+        invincibility: 0
+    };
+    
+    gameManager.updateGameData(gameSettings, true);
     window.gameManager.addGameManagerListener(gameManagerListener);
     // >>>>> End Game Cast Setup
     
@@ -116,8 +188,8 @@ window.onload = function () {
     console.log('Receiver Manager started');
 
     // Open Lobby after reciever initiates
-    window.gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN, true);
-    gameManager.broadcastGameManagerStatus();
+    window.gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN, false);
+    //gameManager.broadcastGameManagerStatus();
      
 };
 
