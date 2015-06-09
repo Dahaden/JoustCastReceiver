@@ -30,7 +30,6 @@ window.onload = function () {
     
 
     // Available Listener Functions https://developers.google.com/cast/docs/reference/receiver/cast.receiver.games.GameManagerListener
-    var gameManagerListener = new cast.receiver.games.GameManagerListener(); 
 
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DATA_CHANGED, function (event) {
         updateScreenPlayerStatus();
