@@ -1,11 +1,36 @@
 window.onload = function () {
     
+    MyGame = function() {};
+    
+    MyGame.prototype.onPlayerAvailable = function(event) {
+        console.log('Player ' + event.playerInfo.playerId + ' is available');
+    };
+    
+    MyGame.prototype.onPlayerReady = function() {};
+    MyGame.prototype.onPlayerIdle = function() {};
+    MyGame.prototype.onPlayerPlaying = function() {};
+    MyGame.prototype.onPlayerDropped = function() {};
+    MyGame.prototype.onPlayerQuit = function() {};
+    MyGame.prototype.onGetGameManagerStatus = function() {};
+    MyGame.prototype.onGameMessage = function() {};
+    MyGame.prototype.onGameLoading = function() {};
+    MyGame.prototype.onGameRunning = function() {};
+    MyGame.prototype.onGamePaused = function() {};
+    MyGame.prototype.onGameShowingInfoScreen = function() {};
+    MyGame.prototype.onLobbyOpen = function() {};
+    MyGame.prototype.onLobbyClosed = function() {};
+    
+    myGame = new MyGame();
+    
+    
     // Game config settings, App Name should be able to be anything
     var gameConfig = new cast.receiver.games.GameManagerConfig();
     gameConfig.applicationName = 'com.dhaden.joust';
     gameConfig.maxPlayers = 32;
     
     window.gameManager = new cast.receiver.games.GameManager(gameConfig);
+    
+    gameManager.addGameManagerListener(myGame);
     
     cast.receiver.logger.setLevelValue(0);
     
