@@ -1,31 +1,3 @@
-// >>>>>>>>>>>>>>>>>>>>>> BEGINNING TEMP CODE
-var updateSpan = function (spanID, num) {
-    var element = document.getElementById(spanID);
-    element.innerText = num;
-};
-
-var numInSpan = function (spanID) {
-    var element = document.getElementById(spanID);
-    var num = parseInt(element.innerText);
-    return num;
-};
-
-var deltaSpan = function (spanID, delta) {
-    updateSpan(spanID, numInSpan(spanID) + delta);
-};
-
-
-var updateScreenPlayerStatus = function () {
-    var idle = gameManager.getPlayersInState(cast.receiver.games.PlayerState.IDLE).length;
-    var available = gameManager.getPlayersInState(cast.receiver.games.PlayerState.AVAILABLE).length;
-    var ready = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY).length;
-
-    updateSpan("player-idle", idle);
-    updateSpan("player-ready", ready);
-    updateSpan("player-available", available);
-};
-// <<<<<<<<<<<<<<<<<<<<<< END TEMP CODE
-
 window.onload = function () {
     
     // Game config settings, App Name should be able to be anything
@@ -62,11 +34,11 @@ window.onload = function () {
     // Available Listener Functions https://developers.google.com/cast/docs/reference/receiver/cast.receiver.games.GameManagerListener
     var gameManagerListener = new cast.receiver.games.GameManagerListener(); 
 
-    gameManagerListener.onPlayerDataChanged = function (event) {
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DATA_CHANGED, function (event) {
         updateScreenPlayerStatus();
-    };
+    });
 
-    gameManagerListener.onPlayerAvailable = function (event) {
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, function (event) {
         var result = { type: 2, 'isHost': false };
         if (window.host == undefined) {
             result.isHost = true;
@@ -75,11 +47,11 @@ window.onload = function () {
         gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, result);
         updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
         return result;
-    };
+    });
 
-    gameManagerListener.onPlayerDropped = function (event) {
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, function (event) {
         playerLeft(event);
-    };
+    });
     
     // Closes window in no players left
     // Swtiches host is previous host left
@@ -107,9 +79,9 @@ window.onload = function () {
         return null;
     }
 
-    gameManagerListener.onPlayerQuit = function (event) {
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, function (event) {
         playerLeft(event);
-    };
+    });
     
     /*
     customObject Definitions:
@@ -153,7 +125,7 @@ window.onload = function () {
                 name: "string"
             }
     */
-    gameManagerListener.onGameMessageReceived = function(event) {
+    gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event) {
         var customObject = event.resultExtraMessageData;
         if(window.host == event.playerInfo.playerId) {
             if(customObject.type == 0) {
@@ -168,7 +140,7 @@ window.onload = function () {
                 
             }
         }
-    };
+    });
     
     function replaceIfExists(toBeReplaced, replacer, attributeName) {
         toBeReplaced[attributeName] = replacer[attributeName] ? replacer[attributeName] : toBeReplaced[attributeName];
@@ -196,3 +168,30 @@ window.onload = function () {
      
 };
 
+// >>>>>>>>>>>>>>>>>>>>>> BEGINNING TEMP CODE
+var updateSpan = function (spanID, num) {
+    var element = document.getElementById(spanID);
+    element.innerText = num;
+};
+
+var numInSpan = function (spanID) {
+    var element = document.getElementById(spanID);
+    var num = parseInt(element.innerText);
+    return num;
+};
+
+var deltaSpan = function (spanID, delta) {
+    updateSpan(spanID, numInSpan(spanID) + delta);
+};
+
+
+var updateScreenPlayerStatus = function () {
+    var idle = gameManager.getPlayersInState(cast.receiver.games.PlayerState.IDLE).length;
+    var available = gameManager.getPlayersInState(cast.receiver.games.PlayerState.AVAILABLE).length;
+    var ready = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY).length;
+
+    updateSpan("player-idle", idle);
+    updateSpan("player-ready", ready);
+    updateSpan("player-available", available);
+};
+// <<<<<<<<<<<<<<<<<<<<<< END TEMP CODE
