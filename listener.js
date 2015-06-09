@@ -19,12 +19,6 @@ window.onload = function () {
         window.castReceiverManager.setApplicationState("Ready");
     };
 
-    // handler for 'systemvolumechanged' event
-    castReceiverManager.onSystemVolumeChanged = function (event) {
-        console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
-            event.data['muted']);
-    };
-
     // >>>>> Start Game Cast Setup
     // Available GameManager Functions https://developers.google.com/cast/docs/reference/receiver/cast.receiver.games.GameManager
     
@@ -37,7 +31,7 @@ window.onload = function () {
 
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, function (event) {
         var result = { type: 2, 'isHost': false };
-        if (window.host == undefined) {
+        if (window.host == undefined || window.host == event.playerInfo.playerId) {
             result.isHost = true;
             window.host = event.playerInfo.playerId;
         }
@@ -121,22 +115,22 @@ window.onload = function () {
                 name: "string"
             }
     */
-    gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event) {
-        var customObject = event.resultExtraMessageData;
-        if(window.host == event.playerInfo.playerId) {
-            if(customObject.type == 0) {
-                var gameData = gameManager.getGameData();
-                var boundFunction = replaceIfExists.bind(undefined, gameData, customObject);
-                boundFunction('gameMode');
-                boundFunction('teamLimit');
-                boundFunction('freeze');
-                boundFunction('invincibility');
-                gameManager.updateGameData(gameData, false);
-            } else if(customObject.type == 1) {
+    // gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event) {
+    //     var customObject = event.resultExtraMessageData;
+    //     if(window.host == event.playerInfo.playerId) {
+    //         if(customObject.type == 0) {
+    //             var gameData = gameManager.getGameData();
+    //             var boundFunction = replaceIfExists.bind(undefined, gameData, customObject);
+    //             boundFunction('gameMode');
+    //             boundFunction('teamLimit');
+    //             boundFunction('freeze');
+    //             boundFunction('invincibility');
+    //             gameManager.updateGameData(gameData, false);
+    //         } else if(customObject.type == 1) {
                 
-            }
-        }
-    });
+    //         }
+    //     }
+    // });
     
     function replaceIfExists(toBeReplaced, replacer, attributeName) {
         toBeReplaced[attributeName] = replacer[attributeName] ? replacer[attributeName] : toBeReplaced[attributeName];
@@ -151,7 +145,6 @@ window.onload = function () {
     };
     
     gameManager.updateGameData(gameSettings, true);
-    window.gameManager.addGameManagerListener(gameManagerListener);
     // >>>>> End Game Cast Setup
     
     // initialize the CastReceiverManager with an application status message
@@ -160,6 +153,7 @@ window.onload = function () {
 
     // Open Lobby after reciever initiates
     window.gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN, false);
+    gameManager.updateGameStatusText("Ready");
     //gameManager.broadcastGameManagerStatus();
      
 };
