@@ -189,9 +189,11 @@ var updateScreenPlayerStatus = function () {
     var idle = gameManager.getPlayersInState(cast.receiver.games.PlayerState.IDLE).length;
     var available = gameManager.getPlayersInState(cast.receiver.games.PlayerState.AVAILABLE).length;
     var ready = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY).length;
-
-    updateSpan("player-idle", idle);
-    updateSpan("player-ready", ready);
-    updateSpan("player-available", available);
+    var playing = gameManager.getPlayersInState(cast.receiver.games.PlayerState.PLAYING).length;
+    
+    updateSpan("players-idle", idle);
+    updateSpan("players-ready", ready);
+    updateSpan("players-available", available);
+    updateSpan("players-playing", playing);
 };
 // <<<<<<<<<<<<<<<<<<<<<< END TEMP CODE
