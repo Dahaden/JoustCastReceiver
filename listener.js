@@ -33,6 +33,8 @@ window.onload = function () {
     gameConfig.applicationName = 'com.dhaden.joust';
     gameConfig.maxPlayers = 32;
     
+    window.gameManager = new cast.receiver.games.GameManager(gameConfig);
+    
     cast.receiver.logger.setLevelValue(0);
     
     // >>>>> Benginning Cast Setup (Not gamecast)
@@ -55,7 +57,7 @@ window.onload = function () {
 
     // >>>>> Start Game Cast Setup
     // Available GameManager Functions https://developers.google.com/cast/docs/reference/receiver/cast.receiver.games.GameManager
-    window.gameManager = new cast.receiver.games.GameManager(gameConfig);
+    
 
     // Available Listener Functions https://developers.google.com/cast/docs/reference/receiver/cast.receiver.games.GameManagerListener
     var gameManagerListener = new cast.receiver.games.GameManagerListener(); 
