@@ -175,6 +175,7 @@ window.onload = function () {
     }
     
     var gameSettings = {
+        type: 0,
         gameMode: 0,
         teamLimit: 2,
         freeze: 0,

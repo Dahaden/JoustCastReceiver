@@ -1,6 +1,6 @@
 window.onload = function () {
 	var gameConfig = new cast.receiver.games.GameManagerConfig();
-    gameConfig.applicationName = 'Joust';
+    gameConfig.applicationName = 'com.dhaden.joust';
     gameConfig.maxPlayers = 4;
     
     window.gameManager = new cast.receiver.games.GameManager(gameConfig);
