@@ -9,7 +9,6 @@ window.onload = function () {
     
     cast.receiver.logger.setLevelValue(0);
     
-    // >>>>> Benginning Cast Setup (Not gamecast)
     window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 
     console.log('Starting Receiver Manager');
@@ -25,7 +24,6 @@ window.onload = function () {
         console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
             event.data['muted']);
     };
-    // <<<<< END Cast Setup (Not gamecast)
 
     // >>>>> Start Game Cast Setup
     // Available GameManager Functions https://developers.google.com/cast/docs/reference/receiver/cast.receiver.games.GameManager
@@ -46,7 +44,6 @@ window.onload = function () {
         }
         gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, result);
         updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
-        return result;
     });
 
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, function (event) {
