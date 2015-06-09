@@ -1,6 +1,6 @@
 window.onload = function () {
     
-    var MyGame = function() {};
+    MyGame = function() {};
     
     MyGame.prototype.onPlayerAvailable = function(event) {
         console.log('Player ' + event.playerInfo.playerId + ' is available');
@@ -20,7 +20,7 @@ window.onload = function () {
     MyGame.prototype.onLobbyOpen = function() {};
     MyGame.prototype.onLobbyClosed = function() {};
     
-    var myGame = new MyGame();
+    myGame = new MyGame();
     
     
     // Game config settings, App Name should be able to be anything
