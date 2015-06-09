@@ -17,7 +17,7 @@ window.onload = function () {
     // handler for the 'ready' event
     castReceiverManager.onReady = function (event) {
         console.log('Received Ready event: ' + JSON.stringify(event.data));
-        window.castReceiverManager.setApplicationState("Application status is ready");
+        window.castReceiverManager.setApplicationState("Ready");
     };
 
     // handler for 'systemvolumechanged' event
@@ -159,7 +159,7 @@ window.onload = function () {
     // >>>>> End Game Cast Setup
     
     // initialize the CastReceiverManager with an application status message
-    window.castReceiverManager.start({ statusText: "Application is starting" });
+    window.castReceiverManager.start({ statusText: "Starting" });
     console.log('Receiver Manager started');
 
     // Open Lobby after reciever initiates
