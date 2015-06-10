@@ -11,18 +11,19 @@ window.onload = function () {
     });
 	
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY, function (event) {
-        var result = { type: 2, 'isHost': true };
-        gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, result);
+        // var result = { type: 2, 'isHost': true };
+        // gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, result);
+        outsideFunc();
     });
     
-    gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event) { });
+    gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event) {outsideFunc(); });
     
-    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, function (event) {});
-    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, function (event) {});
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, function (event) {outsideFunc();});
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, function (event) {outsideFunc();});
     
-    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DATA_CHANGED, function (event) {});
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DATA_CHANGED, function (event) {outsideFunc();});
 
-    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, function (event) {});
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, function (event) {outsideFunc();});
 	
 	window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 	
@@ -34,4 +35,8 @@ window.onload = function () {
 	
 	window.castReceiverManager.start({ statusText: "Application is starting" });
     gameManager.updateGameStatusText("Ready");
+};
+
+var outsideFunc = function() {
+    console.log("Hello World");
 };
