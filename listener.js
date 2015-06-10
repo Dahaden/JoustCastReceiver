@@ -45,7 +45,7 @@ window.onload = function () {
             result.isHost = true;
             window.host = event.playerInfo.playerId;
         }
-        gameManager.updatePlayerData(event.playerInfo.playerId, result, false);
+        gameManager.updatePlayerData(event.playerInfo.playerId, result, true);
         updateScreenPlayerStatus();
     });
 
