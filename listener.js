@@ -25,18 +25,28 @@ window.onload = function () {
 
     // Available Listener Functions https://developers.google.com/cast/docs/reference/receiver/cast.receiver.games.GameManagerListener
 
-    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DATA_CHANGED, function (event) {
+        // Not called for change in state
+    // gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DATA_CHANGED, function (event) {
+    //     updateScreenPlayerStatus();
+    // });
+    
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_PLAYING, function(event) {
+        updateScreenPlayerStatus();
+    });
+    
+    gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY, function(event) {
+        updatePlayerName(event);
         updateScreenPlayerStatus();
     });
 
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, function (event) {
-        var result = { type: 2, 'isHost': false };
+        var result = { type: 2, 'isHost': false, dead: true,  team: null, name: ""};
         if (window.host == undefined || window.host == event.playerInfo.playerId) {
             result.isHost = true;
             window.host = event.playerInfo.playerId;
         }
-        gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, result);
-        updateScreenPlayerStatus(window.gameManager.getConnectedPlayers());
+        gameManager.updatePlayerData(event.playerInfo.playerId, result);
+        updateScreenPlayerStatus();
     });
 
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, function (event) {
@@ -55,6 +65,7 @@ window.onload = function () {
                 gameManager.sendGameMessageToPlayer(nextHost.playerId, {type: 2, isHost: true});
             }
         }
+        updateScreenPlayerStatus();
     }
     
     // Finds next best host in order from PLAYING -> READY -> AVAILABLE
@@ -116,7 +127,7 @@ window.onload = function () {
             }
     */
     gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event) {
-        var customObject = event.requestExtraMessageData;
+        var customObject = event.requestExtraMessageData ? event.requestExtraMessageData : event.resultExtraMessageData;
         if(!customObject) {
             console.error("Could not get message Data");
             return;
@@ -134,7 +145,16 @@ window.onload = function () {
                 
             }
         }
+        if(customObject.type == 5) {
+            updatePlayerName(event);
+        }
     });
+    
+    function updatePlayerName(event) {
+        var playerData = gameManager.getPlayer(event.playerInfo.playerId).playerData;
+        playerData.name = event.requestExtraMessageData ? event.requestExtraMessageData.name : event.resultExtraMessageData.name;
+        gameManager.updatePlayerData(event.playerInfo.playerId, playerData);
+    };
     
     function replaceIfExists(toBeReplaced, replacer, attributeName) {
         toBeReplaced[attributeName] = replacer[attributeName] ? replacer[attributeName] : toBeReplaced[attributeName];
