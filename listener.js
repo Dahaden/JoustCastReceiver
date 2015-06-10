@@ -121,10 +121,10 @@ window.onload = function () {
             if(customObject.type == 0) {
                 var gameData = gameManager.getGameData();
                 var boundFunction = replaceIfExists.bind(undefined, gameData, customObject);
-                boundFunction('gameMode');
-                boundFunction('teamLimit');
-                boundFunction('freeze');
-                boundFunction('invincibility');
+                //boundFunction('gameMode');
+                //boundFunction('teamLimit');
+                //boundFunction('freeze');
+                //boundFunction('invincibility');
                 gameManager.updateGameData(gameData, false);
             } else if(customObject.type == 1) {
                 
