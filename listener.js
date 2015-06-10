@@ -141,7 +141,7 @@ window.onload = function () {
                 boundFunction('teamLimit');
                 boundFunction('freeze');
                 boundFunction('invincibility');
-                gameManager.updateGameData(gameData, false);
+                gameManager.updateGameData(gameData);
             } else if(customObject.type == 1) {
                 
             }
@@ -154,7 +154,7 @@ window.onload = function () {
     function updatePlayerName(event) {
         var playerData = gameManager.getPlayer(event.playerInfo.playerId).playerData;
         playerData.name = event.requestExtraMessageData ? event.requestExtraMessageData.name : event.resultExtraMessageData.name;
-        gameManager.updatePlayerData(event.playerInfo.playerId, playerData);
+        gameManager.updatePlayerData(event.playerInfo.playerId, playerData, true);
     };
     
     function replaceIfExists(toBeReplaced, replacer, attributeName) {
