@@ -45,9 +45,8 @@ window.onload = function () {
             result.isHost = true;
             window.host = event.playerInfo.playerId;
         }
-        //gameManager.updatePlayerData(event.playerInfo.playerId, result);
+        gameManager.updatePlayerData(event.playerInfo.playerId, result, false);
         updateScreenPlayerStatus();
-        return result;
     });
 
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, function (event) {
