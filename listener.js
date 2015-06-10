@@ -116,15 +116,19 @@ window.onload = function () {
             }
     */
     gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event) {
-        var customObject = event.resultExtraMessageData;
+        var customObject = event.requestExtraMessageData;
+        if(!customObject) {
+            console.error("Could not get message Data");
+            return;
+        }
         if(window.host == event.playerInfo.playerId) {
             if(customObject.type == 0) {
                 var gameData = gameManager.getGameData();
                 var boundFunction = replaceIfExists.bind(undefined, gameData, customObject);
-                //boundFunction('gameMode');
-                //boundFunction('teamLimit');
-                //boundFunction('freeze');
-                //boundFunction('invincibility');
+                boundFunction('gameMode');
+                boundFunction('teamLimit');
+                boundFunction('freeze');
+                boundFunction('invincibility');
                 gameManager.updateGameData(gameData, false);
             } else if(customObject.type == 1) {
                 
