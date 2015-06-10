@@ -143,7 +143,7 @@ window.onload = function () {
                 boundFunction('invincibility');
                 gameManager.updateGameData(gameData);
             } else if(customObject.type == 1) {
-                
+                gameManager.updateGameplayState(cast.receiver.games.GameplayState.RUNNING);
             }
         }
         if(customObject.type == 5) {
