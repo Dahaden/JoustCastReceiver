@@ -45,8 +45,9 @@ window.onload = function () {
             result.isHost = true;
             window.host = event.playerInfo.playerId;
         }
-        gameManager.updatePlayerData(event.playerInfo.playerId, result);
+        //gameManager.updatePlayerData(event.playerInfo.playerId, result);
         updateScreenPlayerStatus();
+        return result;
     });
 
     gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, function (event) {
@@ -62,7 +63,7 @@ window.onload = function () {
                 //window.close(); TODO just not now :/
             } else {
                 window.host == nextHost.playerId;
-                gameManager.sendGameMessageToPlayer(nextHost.playerId, {type: 2, isHost: true});
+                gameManager.updatePlayerData(nextHost.playerId, {type: 2, isHost: true});
             }
         }
         updateScreenPlayerStatus();
