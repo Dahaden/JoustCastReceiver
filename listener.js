@@ -60,6 +60,7 @@ window.onload = function () {
             var nextHost = getNextBestHost(); // TODO Check assumption of player already taken out
             if (nextHost == null) {
                 //window.close(); TODO just not now :/
+                window.host = undefined;
             } else {
                 window.host == nextHost.playerId;
                 gameManager.updatePlayerData(nextHost.playerId, {type: 2, isHost: true});
