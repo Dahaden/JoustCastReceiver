@@ -164,12 +164,15 @@ window.onload = function () {
         toBeReplaced[attributeName] = replacer[attributeName] ? replacer[attributeName] : toBeReplaced[attributeName];
     }
     
+    var maxAudioSpeed = 4;
+    var minAudioSpeed = 0.5;
+    
     gameManager.addEventListener(cast.receiver.games.EventType.GAME_RUNNING, function(event) {
           mediaElement.src = "music/Aesthesys - All That Fall.mp3";
           mediaElement.autoplay = true;
           mediaElement.loop = true;
-          mediaElement.playbackRate.value = 1.0;
-          mediaElement.playBackChange = window.setInterval(function() { mediaElement.playbackRate.value = Math.random() * 8 + 0.10; }, 2000);
+          mediaElement.playbackRate = 1.0;
+          mediaElement.playBackChange = window.setInterval(function() { mediaElement.playbackRate = Math.random() * (maxAudioSpeed-minAudioSpeed) + minAudioSpeed; }, 2000);
     });
     
     var gameSettings = {
